@@ -1,0 +1,856 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "collapsed_sections": [],
+      "authorship_tag": "ABX9TyMF1aTE0CbIXfJH8tf1NPxY",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/shrushridh/Importing-a-csv-file-/blob/main/TASK5\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ground Cricket Chirps\n",
+        "\n",
+        "\n",
+        "In The Song of Insects (1948) by George W. Pierce, Pierce mechanically measured the frequency (the number of wing vibrations per second) of chirps (or pulses of sound) made by a striped ground cricket, at various ground temperatures. Since crickets are ectotherms (cold-blooded), the rate of their physiological processes and their overall metabolism are influenced by temperature. Consequently, there is reason to believe that temperature would have a profound effect on aspects of their behavior, such as chirp frequency.\n",
+        "\n",
+        "In general, it was found that crickets did not sing at temperatures colder than 60º F. or warmer than 100º F.\n"
+      ],
+      "metadata": {
+        "id": "SD6XZbRh6p4L"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "%matplotlib inline"
+      ],
+      "metadata": {
+        "id": "yWCrt6a_7DP6"
+      },
+      "execution_count": 1,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "ground_cricket_data = {\"ChirpsperSecond\": [20.0, 16.0, 19.8, 18.4, 17.1, 15.5, 14.7,\n",
+        "                                         15.7, 15.4, 16.3, 15.0, 17.2, 16.0, 17.0,\n",
+        "                                         14.4],\n",
+        "                       \"GroundTemperature\": [88.6, 71.6, 93.3, 84.3, 80.6, 75.2, 69.7,\n",
+        "                                              71.6, 69.4, 83.3, 79.6, 82.6, 80.6, 83.5,\n",
+        "                                              76.3]}\n",
+        "df = pd.DataFrame(ground_cricket_data)\n",
+        "df"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 519
+        },
+        "id": "KwhIYqfJ7Vv5",
+        "outputId": "344ddc64-9c41-4eea-dd0c-5f220ad6e8c5"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "    ChirpsperSecond  GroundTemperature\n",
+              "0              20.0               88.6\n",
+              "1              16.0               71.6\n",
+              "2              19.8               93.3\n",
+              "3              18.4               84.3\n",
+              "4              17.1               80.6\n",
+              "5              15.5               75.2\n",
+              "6              14.7               69.7\n",
+              "7              15.7               71.6\n",
+              "8              15.4               69.4\n",
+              "9              16.3               83.3\n",
+              "10             15.0               79.6\n",
+              "11             17.2               82.6\n",
+              "12             16.0               80.6\n",
+              "13             17.0               83.5\n",
+              "14             14.4               76.3"
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-14eb434f-4022-4e47-a4d6-bb1d6f030e72\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>ChirpsperSecond</th>\n",
+              "      <th>GroundTemperature</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>20.0</td>\n",
+              "      <td>88.6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>16.0</td>\n",
+              "      <td>71.6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>19.8</td>\n",
+              "      <td>93.3</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>18.4</td>\n",
+              "      <td>84.3</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>17.1</td>\n",
+              "      <td>80.6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>5</th>\n",
+              "      <td>15.5</td>\n",
+              "      <td>75.2</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>6</th>\n",
+              "      <td>14.7</td>\n",
+              "      <td>69.7</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>7</th>\n",
+              "      <td>15.7</td>\n",
+              "      <td>71.6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>8</th>\n",
+              "      <td>15.4</td>\n",
+              "      <td>69.4</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>9</th>\n",
+              "      <td>16.3</td>\n",
+              "      <td>83.3</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>10</th>\n",
+              "      <td>15.0</td>\n",
+              "      <td>79.6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>11</th>\n",
+              "      <td>17.2</td>\n",
+              "      <td>82.6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>12</th>\n",
+              "      <td>16.0</td>\n",
+              "      <td>80.6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>13</th>\n",
+              "      <td>17.0</td>\n",
+              "      <td>83.5</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>14</th>\n",
+              "      <td>14.4</td>\n",
+              "      <td>76.3</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-14eb434f-4022-4e47-a4d6-bb1d6f030e72')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-14eb434f-4022-4e47-a4d6-bb1d6f030e72 button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-14eb434f-4022-4e47-a4d6-bb1d6f030e72');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 2
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.describe()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 300
+        },
+        "id": "0lw5tizv7cUA",
+        "outputId": "995b1862-0e16-42ec-a11a-97ba4dffb582"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "       ChirpsperSecond  GroundTemperature\n",
+              "count        15.000000          15.000000\n",
+              "mean         16.566667          79.346667\n",
+              "std           1.712837           7.020467\n",
+              "min          14.400000          69.400000\n",
+              "25%          15.450000          73.400000\n",
+              "50%          16.000000          80.600000\n",
+              "75%          17.150000          83.400000\n",
+              "max          20.000000          93.300000"
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-5bc0f34e-b8bc-472f-8b84-41dcaf868bce\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>ChirpsperSecond</th>\n",
+              "      <th>GroundTemperature</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>count</th>\n",
+              "      <td>15.000000</td>\n",
+              "      <td>15.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>mean</th>\n",
+              "      <td>16.566667</td>\n",
+              "      <td>79.346667</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>std</th>\n",
+              "      <td>1.712837</td>\n",
+              "      <td>7.020467</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>min</th>\n",
+              "      <td>14.400000</td>\n",
+              "      <td>69.400000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>25%</th>\n",
+              "      <td>15.450000</td>\n",
+              "      <td>73.400000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>50%</th>\n",
+              "      <td>16.000000</td>\n",
+              "      <td>80.600000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>75%</th>\n",
+              "      <td>17.150000</td>\n",
+              "      <td>83.400000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>max</th>\n",
+              "      <td>20.000000</td>\n",
+              "      <td>93.300000</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-5bc0f34e-b8bc-472f-8b84-41dcaf868bce')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-5bc0f34e-b8bc-472f-8b84-41dcaf868bce button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-5bc0f34e-b8bc-472f-8b84-41dcaf868bce');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 3
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "df.plot(x='GroundTemperature',y='ChirpsperSecond', style=\"o\")\n",
+        "plt.title('Ground Temperature vs Chirps per Second')\n",
+        "plt.xlabel('Ground Temperature')\n",
+        "plt.ylabel('Chirps per Second')\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 295
+        },
+        "id": "BfGzGeoz7fiZ",
+        "outputId": "258d3deb-aa15-422c-ba34-6eb9064323ff"
+      },
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.corr()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 112
+        },
+        "id": "AXWBRjUX7z9T",
+        "outputId": "ec290336-2fcd-4204-f4b5-200e0f5fb1bb"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "                   ChirpsperSecond  GroundTemperature\n",
+              "ChirpsperSecond           1.000000           0.832042\n",
+              "GroundTemperature         0.832042           1.000000"
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-7490f827-5906-4d0d-91a4-37f44c2e0444\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>ChirpsperSecond</th>\n",
+              "      <th>GroundTemperature</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>ChirpsperSecond</th>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>0.832042</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>GroundTemperature</th>\n",
+              "      <td>0.832042</td>\n",
+              "      <td>1.000000</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-7490f827-5906-4d0d-91a4-37f44c2e0444')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-7490f827-5906-4d0d-91a4-37f44c2e0444 button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-7490f827-5906-4d0d-91a4-37f44c2e0444');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df['GroundTemperature']=df['GroundTemperature'].to_frame()\n",
+        "df['ChirpsperSecond']=df['ChirpsperSecond'].to_frame()\n",
+        "df['GroundTemperature']"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "VMuCWHZy747B",
+        "outputId": "fe9e75e8-1878-4522-864f-d432cc39fc1f"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0     88.6\n",
+              "1     71.6\n",
+              "2     93.3\n",
+              "3     84.3\n",
+              "4     80.6\n",
+              "5     75.2\n",
+              "6     69.7\n",
+              "7     71.6\n",
+              "8     69.4\n",
+              "9     83.3\n",
+              "10    79.6\n",
+              "11    82.6\n",
+              "12    80.6\n",
+              "13    83.5\n",
+              "14    76.3\n",
+              "Name: GroundTemperature, dtype: float64"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = df['GroundTemperature']\n",
+        "X = X.to_frame()\n",
+        "y = df['ChirpsperSecond']"
+      ],
+      "metadata": {
+        "id": "lK0CDnzF7-fK"
+      },
+      "execution_count": 9,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from sklearn import linear_model\n",
+        "linreg = linear_model.LinearRegression()\n",
+        "linreg.fit(X, y)\n",
+        "print('intercept:', linreg.intercept_)\n",
+        "print('coefficient:', linreg.coef_)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "iMmvm-sV8RgJ",
+        "outputId": "4712b7af-a1a4-430d-bf6d-51cc1d36f11c"
+      },
+      "execution_count": 11,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "intercept: 0.45931464523595267\n",
+            "coefficient: [0.20299973]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plt.scatter(X, y, color='blue')\n",
+        "plt.plot(X, linreg.predict(X), color='limegreen')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 283
+        },
+        "id": "w_2Wadwz8VY5",
+        "outputId": "5af0c568-fae7-42f0-fbf6-69b9e36b71d9"
+      },
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[<matplotlib.lines.Line2D at 0x7f7f0616ded0>]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 12
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**EXTRAPOLATE**"
+      ],
+      "metadata": {
+        "id": "-zqSOVe_8ebs"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "i=float(input())\n",
+        "p=linreg.predict([[i]])\n",
+        "z=int(p.round())\n",
+        "print(\"If the ground temperature reached \",str(i),\" we can expect crickets to be chirping at\", str(z),\" 20 chirps per sec\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "yH10Cfpu8jDp",
+        "outputId": "db34642a-f869-4481-c20b-58a3ec6b039d"
+      },
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "90\n",
+            "If the ground temperature reached  90.0  we can expect crickets to be chirping at 19  20 chirps per sec\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "/usr/local/lib/python3.7/dist-packages/sklearn/base.py:451: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names\n",
+            "  \"X does not have valid feature names, but\"\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**INTERPOLATE**"
+      ],
+      "metadata": {
+        "id": "5xdY9BQg91Ov"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "m=float(input())\n",
+        "c=(m - linreg.intercept_) / linreg.coef_\n",
+        "o=int(c.round())\n",
+        "print(\"If the crickets were chirping at a rate of \",str(m),\" chirps per second. then the approximate ground temperature that morning would be 86 degrees\") "
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "q9aLy91t9575",
+        "outputId": "e0c3e675-6262-46f2-af73-ff12e686b51a"
+      },
+      "execution_count": 17,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "30\n",
+            "If the crickets were chirping at a rate of  30.0  chirps per second. then the approximate ground temperature that morning would be 86 degrees\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
